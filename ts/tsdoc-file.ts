@@ -16,7 +16,7 @@ export class TSDocFile {
 	
 	protected rawContent: string;
 	
-	protected ast: ts.SourceFile;
+	protected sourceFile: ts.SourceFile;
 	
 	protected constructor(rawContent: string, fileName: string | null,
 		languageVersionOrOptions: ts.ScriptTarget | ts.CreateSourceFileOptions
@@ -24,7 +24,7 @@ export class TSDocFile {
 		
 		this.fileName = fileName ?? TSDocFile.DEFAULT_FILE_NAME;
 		this.rawContent = rawContent;
-		this.ast = ts.createSourceFile(
+		this.sourceFile = ts.createSourceFile(
 			this.fileName,
 			this.rawContent,
 			languageVersionOrOptions
