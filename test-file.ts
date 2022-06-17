@@ -14,3 +14,19 @@ export function myFunction(func: string, operand: number): number {
 	return 0.00;
 	
 }
+
+export class MyClass<T extends number> {
+	
+	public getObj(): T {
+		
+		return undefined as any;
+		
+	}
+	
+	public getOtherObj(): number {
+		
+		return 1;
+		
+	}
+	
+}
