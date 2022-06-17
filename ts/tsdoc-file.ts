@@ -7,16 +7,40 @@
 import ts from "typescript";
 import fs from "fs/promises";
 import path from "path";
+import { TSDocNode } from "./nodes/base/tsdoc-node";
+import { TSDocFunction } from "./nodes/tsdoc-function";
+import { TSDocInterface } from "./nodes/tsdoc-interface";
+import { TSDocClass } from "./nodes/base/tsdoc-class";
 
 export class TSDocFile {
 	
 	protected static readonly DEFAULT_FILE_NAME: string = "code.ts";
+	
+	protected static readonly ALLOWED_NODE_KINDS: number[] = [
+		ts.SyntaxKind.InterfaceDeclaration,
+		ts.SyntaxKind.ClassDeclaration,
+		ts.SyntaxKind.PropertyDeclaration,
+		ts.SyntaxKind.MethodDeclaration,
+		ts.SyntaxKind.FunctionDeclaration
+	];
 	
 	protected fileName?: string;
 	
 	protected rawContent: string;
 	
 	protected sourceFile: ts.SourceFile;
+	
+	protected children: TSDocNode[];
+	
+	protected interfaces: TSDocInterface[];
+	
+	protected classes: TSDocClass[];
+	
+	protected concreteClasses: number[];
+	
+	protected abstractClasses: number[];
+	
+	protected functions: TSDocFunction[];
 	
 	protected constructor(rawContent: string, fileName: string | null,
 		languageVersionOrOptions: ts.ScriptTarget | ts.CreateSourceFileOptions
@@ -29,6 +53,13 @@ export class TSDocFile {
 			this.rawContent,
 			languageVersionOrOptions
 		);
+		
+		this.sourceFile.getChildren(this.sourceFile).filter(
+			(node: ts.Node): boolean =>
+				TSDocFile.ALLOWED_NODE_KINDS.includes(node.kind)
+		);
+		
+		
 		
 	}
 	
@@ -74,6 +105,12 @@ export class TSDocFile {
 	public getSourceFileASTNode(): ts.SourceFile {
 		
 		return this.sourceFile;
+		
+	}
+	
+	public getChildren(): TSDocNode[] {
+		
+		return this.children;
 		
 	}
 	
