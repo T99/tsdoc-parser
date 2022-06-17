@@ -1,9 +1,10 @@
 /*
  * Created by Trevor Sears <trevor@trevorsears.com> (https://trevorsears.com/).
  * 8:48 PM -- June 16th, 2019.
- * Project: <name>
+ * Project: @t99/tsdoc-parser
  * 
- * <name> - <desc>
+ * @t99/tsdoc-parser - A JSDoc/TSDoc parser that allows easy generation of
+ * documentation from JSDoc/TSDoc inline comments.
  * Copyright (C) 2021 Trevor Sears
  * 
  * This program is free software: you can redistribute it and/or modify

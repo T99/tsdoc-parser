@@ -1,9 +1,10 @@
 /*
  * Created by Trevor Sears <trevor@trevorsears.com> (https://trevorsears.com/).
  * 10:53 PM -- June 11th, 2019.
- * Project: <name>
+ * Project: @t99/tsdoc-parser
  * 
- * <name> - <desc>
+ * @t99/tsdoc-parser - A JSDoc/TSDoc parser that allows easy generation of
+ * documentation from JSDoc/TSDoc inline comments.
  * Copyright (C) 2021 Trevor Sears
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -29,3 +30,28 @@
  */
 
 // export { ClassName } from "./class-location";
+
+import * as ts from "typescript";
+import { ScriptTarget } from "typescript";
+import fs from "fs/promises";
+
+export async function main(): Promise<void> {
+	
+	const fileName: string = "test-file.ts";
+	const fileContent: string = (await fs.readFile(fileName)).toString();
+	
+	const tsFile: ts.SourceFile = ts.createSourceFile(
+		fileName,
+		fileContent,
+		{ languageVersion: ScriptTarget.ESNext }
+	);
+	
+	ts.forEachChild(tsFile, (node: ts.Node) => {
+		
+		node.
+		
+	});
+	
+}
+
+main();
