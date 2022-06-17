@@ -5,7 +5,7 @@
  */
 
 import ts from "typescript";
-import { TSDocDocumentationComment } from "./doc-comments/tsdoc-documentation-comment";
+import { TSDocDocumentationComment } from "../../doc-comments/tsdoc-documentation-comment";
 
 /**
  * The most generic form of a node within the TSDoc ecosystem.
@@ -13,12 +13,12 @@ import { TSDocDocumentationComment } from "./doc-comments/tsdoc-documentation-co
  * All types of TSDoc nodes are symbol types that support doc-comment usage,
  * such as classes, interfaces, methods, functions, properties, etc.
  * 
- * @author Trevor Sears <trevor@trevorsea.rs>
+ * @author Trevor Sears <trevor@trevorsears.com>
  * @version v0.1.0
  * @since v0.1.0
  */
-export abstract class TSDocNode<N extends ts.Node,
-	D extends TSDocDocumentationComment> {
+export abstract class TSDocNode<N extends ts.Node = ts.Node,
+	D extends TSDocDocumentationComment = TSDocDocumentationComment> {
 	
 	/**
 	 * The underlying TypeScript AST node that this TSDocNode is wrapping.
@@ -97,6 +97,15 @@ export abstract class TSDocNode<N extends ts.Node,
 	}
 	
 	/**
+	 * Returns a string identifier for the 'type' of this TSDocNode.
+	 * 
+	 * This method serves as a simplification over the TypeScript AST's 'kind'
+	 * 
+	 * @returns {string}
+	 */
+	public abstract getTSDocType(): string;
+	
+	/**
 	 * Returns the TypeScript SourceFile object for the source file containing
 	 * the code being represented by this TSDocNode.
 	 * 
@@ -123,9 +132,13 @@ export abstract class TSDocNode<N extends ts.Node,
 	 * For example, the signature of a class might be:
 	 * 'export class Animal { ... }'.
 	 * 
+	 * @param {boolean} includeBlockPlaceholder Set to true to include
+	 * placeholder text for the block associated with the underlying symbol, if
+	 * such a block is present. The placeholder text is simply: ' { ... }'.
 	 * @returns {string} The 'signature' of this symbol/node.
 	 */
-	public abstract getSignature(): string;
+	
+	public abstract getSignature(includeBlockPlaceholder?: boolean): string;
 	
 	/**
 	 * Returns true if this TSDocNode has associated documentation.
