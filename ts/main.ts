@@ -33,22 +33,31 @@
 
 import * as ts from "typescript";
 import { ScriptTarget } from "typescript";
-import fs from "fs/promises";
+import { TSDocFile } from "./tsdoc-file";
 
 export async function main(): Promise<void> {
 	
-	const fileName: string = "test-file.ts";
-	const fileContent: string = (await fs.readFile(fileName)).toString();
-	
-	const tsFile: ts.SourceFile = ts.createSourceFile(
-		fileName,
-		fileContent,
-		{ languageVersion: ScriptTarget.ESNext }
+	let file: TSDocFile = await TSDocFile.fromFile(
+		"test-file.ts",
+		ScriptTarget.ESNext
 	);
 	
-	ts.forEachChild(tsFile, (node: ts.Node) => {
+	let sourceFile: ts.SourceFile = file.getSourceFileASTNode();
+	
+	sourceFile.forEachChild((node: ts.Node): void => {
 		
-		node.
+		if (node.kind === ts.SyntaxKind.EndOfFileToken) return;
+		
+		let leadingTriviaWidth: number = node.getLeadingTriviaWidth(sourceFile);
+		
+		if (leadingTriviaWidth > 0) {
+			
+			let leadingTrivia: string = node.getFullText(sourceFile)
+				.substring(0, leadingTriviaWidth).trim();
+			
+			console.log(`<start>${leadingTrivia}</end>`);
+			
+		}
 		
 	});
 	
