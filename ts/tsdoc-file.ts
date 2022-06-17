@@ -53,4 +53,28 @@ export class TSDocFile {
 		
 	}
 	
+	public hasFileName(): boolean {
+		
+		return this.fileName !== undefined;
+		
+	}
+	
+	public getFileName(): string | undefined {
+		
+		return this.fileName;
+		
+	}
+	
+	public getRawContent(): string {
+		
+		return this.rawContent;
+		
+	}
+	
+	public getSourceFileASTNode(): ts.SourceFile {
+		
+		return this.sourceFile;
+		
+	}
+	
 }
